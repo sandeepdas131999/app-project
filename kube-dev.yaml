@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaighai-node-red
+  namespace: develop
+  labels:
+    app: vaighai-node-red
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaighai-node-red
+  template:
+   metadata:
+     labels:
+      app: vaighai-node-red
+   spec:
+     containers:
+     - name: vaighai-node-red
+       image: registry2.agiliz.tech/vaighai-node-red
+       imagePullPolicy: Always
+       ports:
+       - containerPort: 1882
+       resources:
+         requests:
+            memory: "128Mi"
+            cpu: "30m"
+         limits:
+            memory: "256Mi"
+            cpu: "120m"
+     restartPolicy: Always
+     imagePullSecrets:
+       - name: regcred5
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaighai-node-red
+  namespace: develop
+spec:
+  type: NodePort
+  ports:
+  - port: 1882
+    targetPort: 1882
+    nodePort: 31030
+    protocol: TCP
+    name: vaighai-node-red
+  selector:
+    app: vaighai-node-red
+
