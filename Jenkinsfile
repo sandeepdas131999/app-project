@@ -10,9 +10,7 @@ node ( ' masterslave ' ) {
     stage('Build images') {
         /* This builds the actual image; synonymous to
          * docker build on the command line. */
-             sh "hostname"
-             echo "${env.BUILD_NUMBER}"
-             sh 'docker build -t sandeepdas131999/website-test .'
+             sh "docker build -t sandeepdas131999/website-test ."
            
     }
     stage('Push Image') {
